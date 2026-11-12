@@ -1,0 +1,33 @@
+
+name: Automatic Repository Public
+
+on:
+  schedule:
+    - cron: "0 5 1 12 *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  make-public:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Verify date
+        run: |
+          if [ "$(date -u +%Y-%m-%d)" != "2026-12-01" ]; then
+            echo "Wrong date, stopping."
+            exit 1
+          fi
+
+      - name: Make repository public
+        env:
+          GH_TOKEN: ${{ secrets.ADMIN_TOKEN }}
+          REPO: ${{ github.repository }}
+        run: |
+          gh api --method PATCH \
+            "repos/$REPO" \
+            -f visibility=public
+
+          echo "Repository is now PUBLIC!"
