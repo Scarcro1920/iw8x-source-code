@@ -24,7 +24,7 @@ jobs:
           cp -a temp/. .
 
           rm -rf temp
-          rm -f projet.zip
+          rm -f IW8x-client-main.zip
 
       - name: Commit and push
         run: |
