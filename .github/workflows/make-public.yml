@@ -14,14 +14,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Verify date
+      - name: Check date
+        id: date
         run: |
-          if [ "$(date -u +%Y-%m-%d)" != "2026-12-01" ]; then
-            echo "Wrong date, stopping."
-            exit 1
+          if [ "$(date -u +%Y-%m-%d)" = "2026-12-01" ]; then
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            echo "Waiting for December 1, 2026."
           fi
 
       - name: Make repository public
+        if: steps.date.outputs.ready == 'true'
         env:
           GH_TOKEN: ${{ secrets.ADMIN_TOKEN }}
           REPO: ${{ github.repository }}
