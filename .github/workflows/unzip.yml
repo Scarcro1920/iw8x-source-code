@@ -18,7 +18,7 @@ jobs:
       - name: Extract ZIP at repository root
         run: |
           mkdir -p temp
-          unzip -o projet.zip -d temp
+          unzip -o IW8x-client-main.zip -d temp
 
           # Move ZIP contents to repository root
           cp -a temp/. .
